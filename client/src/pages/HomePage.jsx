@@ -15,7 +15,7 @@ import QuickStats from "../components/QuickStats";
 
 const HomePage = () => {
   return (
-    <div className=" ">
+    <div className="w-full">
       <div className="mx-auto flex justify-between">
         <div className="left w-[69%]">
           <Slider />

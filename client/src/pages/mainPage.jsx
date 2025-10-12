@@ -34,10 +34,7 @@ const MainPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
     setLoading(true);
-
-    // Find content based on type and id
     let foundContent = null;
 
     switch (type) {

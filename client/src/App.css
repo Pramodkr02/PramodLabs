@@ -2,7 +2,7 @@
 
 .container {
   padding-top: 20px;
-  width: 75%;
+  width: 100% !important;
   margin: auto;
   padding: 15px;
   min-width: 1140px !important;

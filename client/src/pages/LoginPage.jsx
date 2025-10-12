@@ -9,6 +9,7 @@ import {
   FaGithub,
   FaArrowLeft,
 } from "react-icons/fa";
+import logo from "../../public/PramodLabs.png";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -46,26 +47,19 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="  bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex items-center justify-center py-6 px-4">
+      <div className="max-w-md w-full space-y-2">
         {/* Header */}
         <div className="text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back to Home
-          </Link>
-          <h2 className="text-4xl font-bold text-gray-800 mb-2">
-            Welcome <span className="text-orange-500">Back</span>
-          </h2>
+          <div className="text-4xl font-bold text-gray-800 mb-2 justify-center flex">
+            <img src={logo} alt="" />
+          </div>
           <p className="text-gray-600">Sign in to your account to continue</p>
         </div>
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -80,7 +74,7 @@ const LoginPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
                   placeholder="Enter your email"
                   required
                 />
@@ -101,7 +95,7 @@ const LoginPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors rounded outline-none"
                   placeholder="Enter your password"
                   required
                 />
@@ -149,7 +143,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
             >
               {isLoading ? (
                 <div className="flex items-center">
@@ -180,14 +174,14 @@ const LoginPage = () => {
           <div className="mt-6 grid grid-cols-2 gap-3">
             <button
               onClick={() => handleSocialLogin("Google")}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
             >
               <FaGoogle className="h-5 w-5 text-red-500" />
               <span className="ml-2">Google</span>
             </button>
             <button
               onClick={() => handleSocialLogin("GitHub")}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
             >
               <FaGithub className="h-5 w-5" />
               <span className="ml-2">GitHub</span>

@@ -108,7 +108,7 @@ const TechPage = () => {
     <div className="bg-gray-50">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
-        <div className="mx-auto px-4">
+        <div className="mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold mb-4">Technology</h1>
             <p className="text-xl text-blue-100 mb-6">
@@ -135,7 +135,7 @@ const TechPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto px-4 py-12">
+      <div className="mx-auto py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Featured Articles */}
           <div className="lg:col-span-2">

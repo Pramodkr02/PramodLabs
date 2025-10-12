@@ -25,9 +25,8 @@ import PaymentPage from "./pages/PaymentPage.jsx";
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <div className="container">
-        <Header />
-
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/main/:type/:id" element={<MainPage />} />
@@ -49,8 +48,8 @@ function App() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-        <Footer />
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

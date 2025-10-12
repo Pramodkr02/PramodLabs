@@ -27,11 +27,16 @@ const Header = () => {
     setIsLoggedIn(false);
     setIsSettingsOpen(false);
   };
+  const handleOnClose = () => {
+    setIsNavOpen(false);
+    setIsSettingsOpen(false);
+  };
 
   return (
     <header className="bg-white shadow-md !mb-7 !px-4">
       {/* Top row */}
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto px-4">
+        {/* max-w-6xl */}
         <div className="flex h-16 items-center justify-between">
           {/* Left: menu toggle and brand */}
           <div className="flex items-center gap-6">
@@ -117,6 +122,7 @@ const Header = () => {
                     <>
                       <li>
                         <Link
+                          onClick={handleOnClose}
                           to="/login"
                           className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
                         >
@@ -126,6 +132,7 @@ const Header = () => {
                       </li>
                       <li>
                         <Link
+                          onClick={handleOnClose}
                           to="/signup"
                           className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
                         >
@@ -141,12 +148,11 @@ const Header = () => {
             <IconButton>
               <FaMoon />
             </IconButton>
-
             <Link
               to="/search"
-              className="ml-3 hidden items-center px-3 py-2 bg-amber-200 rounded  gap-2 text-xs text-gray-500 sm:flex"
+              className="ml-3 hidden items-center gap-2 text-xs text-gray-500 sm:flex"
             >
-              <span className="uppercase tracking-wide font-bold">Search</span>
+              <span className="uppercase tracking-wide">Search</span>
               <FaSearch className="text-orange-600" />
             </Link>
           </div>
@@ -159,7 +165,7 @@ const Header = () => {
           isNavOpen ? "max-h-12" : "max-h-0"
         }`}
       >
-        <nav className="mx-auto max-w-6xl">
+        <nav className="mx-auto ">
           <ul
             className={`flex  items-center  gap-2 text-sm font-semibold text-gray-800 transition-opacity duration-300 ${
               isNavOpen ? "h-12 opacity-100" : "h-12 opacity-0"

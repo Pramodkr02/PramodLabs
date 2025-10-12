@@ -82,17 +82,10 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="  bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="  bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center py-8 px-4">
+      <div className="max-w-md w-full space-y-4">
         {/* Header */}
         <div className="text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back to Home
-          </Link>
           <div className="text-4xl font-bold text-gray-800 mb-2 justify-center flex">
             <img src={logo} alt="" />
           </div>
@@ -100,8 +93,8 @@ const SignupPage = () => {
         </div>
 
         {/* Signup Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-white rounded shadow-xl p-8">
+          <form onSubmit={handleSubmit} className="space-y-2">
             {/* Full Name Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -116,7 +109,7 @@ const SignupPage = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors outline-none"
                   placeholder="Enter your full name"
                   required
                 />
@@ -137,7 +130,7 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors outline-none"
                   placeholder="Enter your email"
                   required
                 />
@@ -158,7 +151,7 @@ const SignupPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="block w-full pl-10 outline-none pr-12 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Create a password"
                   required
                 />
@@ -211,7 +204,7 @@ const SignupPage = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                  className={`block w-full pl-10 pr-12 py-3 border rounded outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
                     formData.confirmPassword &&
                     formData.password !== formData.confirmPassword
                       ? "border-red-300"

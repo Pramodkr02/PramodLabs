@@ -13,8 +13,8 @@ import logo from "../../public/PramodLabs.png";
 const Footer = () => {
   const leftYear = new Date().getFullYear();
   return (
-    <footer className="bg-white bg-shdw mt-7 mb-7">
-      <div className="mx-auto max-w-6xl px-14 py-20 grid grid-cols-1 gap-10 md:grid-cols-3">
+    <footer className="bg-white bg-shdw mt-7">
+      <div className="mx-auto max-w-6xl px-14 py-12 grid grid-cols-1 gap-10 md:grid-cols-3">
         {/* Left: Brand and copyright */}
         <div className="flex flex-col gap-4 border-r border-[#00000065]">
           <Link
