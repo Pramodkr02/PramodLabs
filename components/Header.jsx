@@ -23,9 +23,12 @@ const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const settingsRef = useRef(null);
   const notificationRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -34,6 +37,37 @@ const Header = () => {
   const handleOnClose = () => {
     setIsNavOpen(false);
     setIsSettingsOpen(false);
+  };
+
+  const handleSearchClick = () => {
+    setIsSearchOpen(true);
+    setIsSettingsOpen(false);
+    setIsNotificationOpen(false);
+    // Focus the input after the animation
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 100);
+  };
+
+  const handleSearchClose = () => {
+    setIsSearchOpen(false);
+    setSearchQuery("");
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Redirect to search page with query
+      window.location.href = `/search?q=${encodeURIComponent(
+        searchQuery.trim()
+      )}`;
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      handleSearchClose();
+    }
   };
 
   return (
@@ -68,178 +102,327 @@ const Header = () => {
 
           {/* Right: social icons, controls, search */}
           <div className="flex items-center gap-3 text-gray-600">
-            {/* Notification Button with Dropdown */}
-            <div className="relative" ref={notificationRef}>
-              <button
-                onMouseEnter={() => setIsNotificationOpen(true)}
-                onMouseLeave={() => setIsNotificationOpen(false)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-200 bg-white text-gray-600 hover:text-orange-600 transition-colors duration-200 cursor-pointer relative"
-              >
-                <IoIosNotifications />
-                {/* Notification Badge */}
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                  3
-                </span>
-              </button>
-
-              {/* Notification Dropdown */}
-              <div
-                onMouseEnter={() => setIsNotificationOpen(true)}
-                onMouseLeave={() => setIsNotificationOpen(false)}
-                className={`absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
-                  isNotificationOpen
-                    ? "opacity-100 scale-100 translate-y-0"
-                    : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-                }`}
-              >
-                {/* Arrow pointing to icon */}
-                <div className="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
-
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                    New Notifications
-                  </h3>
-
-                  {/* Sample Notifications */}
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-800 font-medium">
-                          New article published
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Tech • 2 minutes ago
-                        </p>
+            {/* Search Input Box - Shows when search is active */}
+            {isSearchOpen && (
+              <div className="absolute inset-0 z-50 bg-white shadow-xl border-b border-gray-200">
+                <div className="max-w-6xl mx-auto px-4 h-16 flex items-center">
+                  <form
+                    onSubmit={handleSearchSubmit}
+                    className="flex-1 flex items-center gap-6"
+                  >
+                    <div className="flex-1 relative max-w-4xl">
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Search articles, topics, or anything..."
+                        className="w-full px-8 py-4 text-xl border-2 border-orange-200 rounded-full focus:border-orange-500 focus:outline-none transition-all duration-300 shadow-lg"
+                      />
+                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                        <FaSearch className="text-orange-500 text-xl" />
                       </div>
                     </div>
+                    <button
+                      type="submit"
+                      className="bg-orange-600 text-white px-8 py-4 rounded-full hover:bg-orange-700 transition-all duration-300 font-semibold flex items-center gap-3 shadow-lg hover:shadow-xl"
+                    >
+                      <FaSearch />
+                      Search
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSearchClose}
+                      className="text-gray-500 hover:text-gray-700 p-3 rounded-full hover:bg-gray-100 transition-all duration-300"
+                      title="Close search"
+                    >
+                      <svg
+                        className="w-7 h-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
 
-                    <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-800 font-medium">
-                          Sports update available
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Sports • 15 minutes ago
-                        </p>
+                {/* Search Suggestions */}
+                {searchQuery.length > 0 && (
+                  <div className="max-w-6xl mx-auto px-4 py-4 border-t border-gray-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                          Popular Searches
+                        </h4>
+                        <div className="space-y-1">
+                          {[
+                            "AI Technology",
+                            "Sports News",
+                            "Business Updates",
+                            "Fashion Trends",
+                          ].map((term) => (
+                            <button
+                              key={term}
+                              onClick={() =>
+                                (window.location.href = `/search?q=${encodeURIComponent(
+                                  term
+                                )}`)
+                              }
+                              className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200"
+                            >
+                              {term}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-800 font-medium">
-                          Business news alert
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Business • 1 hour ago
-                        </p>
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                          Categories
+                        </h4>
+                        <div className="space-y-1">
+                          {[
+                            "Tech",
+                            "Sports",
+                            "Business",
+                            "Fashion",
+                            "Education",
+                          ].map((category) => (
+                            <button
+                              key={category}
+                              onClick={() =>
+                                (window.location.href = `/search?q=${encodeURIComponent(
+                                  category
+                                )}`)
+                              }
+                              className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200"
+                            >
+                              {category}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                          Quick Actions
+                        </h4>
+                        <div className="space-y-1">
+                          <button
+                            onClick={() =>
+                              (window.location.href = `/search?q=${encodeURIComponent(
+                                "latest news"
+                              )}`)
+                            }
+                            className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200"
+                          >
+                            Latest News
+                          </button>
+                          <button
+                            onClick={() =>
+                              (window.location.href = `/search?q=${encodeURIComponent(
+                                "trending topics"
+                              )}`)
+                            }
+                            className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200"
+                          >
+                            Trending Topics
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
+                )}
+              </div>
+            )}
 
-                  <Link
-                    href="/notifications"
-                    className="block w-full text-center text-orange-600 hover:text-orange-700 font-medium text-sm py-2 border-t border-gray-100 hover:bg-orange-50 transition-colors"
-                  >
-                    See More Notifications
-                  </Link>
+            {/* Regular Icons - Hide when search is open */}
+            <div
+              className={`flex items-center gap-3 transition-all duration-500 ${
+                isSearchOpen
+                  ? "opacity-0 scale-95 pointer-events-none"
+                  : "opacity-100 scale-100"
+              }`}
+            >
+              {/* Notification Button with Dropdown */}
+              <div className="relative" ref={notificationRef}>
+                <button
+                  onMouseEnter={() => setIsNotificationOpen(true)}
+                  onMouseLeave={() => setIsNotificationOpen(false)}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-200 bg-white text-gray-600 hover:text-orange-600 transition-colors duration-200 cursor-pointer relative"
+                >
+                  <IoIosNotifications />
+                  {/* Notification Badge */}
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                    3
+                  </span>
+                </button>
+
+                {/* Notification Dropdown */}
+                <div
+                  onMouseEnter={() => setIsNotificationOpen(true)}
+                  onMouseLeave={() => setIsNotificationOpen(false)}
+                  className={`absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
+                    isNotificationOpen
+                      ? "opacity-100 scale-100 translate-y-0"
+                      : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {/* Arrow pointing to icon */}
+                  <div className="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                      New Notifications
+                    </h3>
+
+                    {/* Sample Notifications */}
+                    <div className="space-y-3 mb-4">
+                      <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-800 font-medium">
+                            New article published
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Tech • 2 minutes ago
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-800 font-medium">
+                            Sports update available
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Sports • 15 minutes ago
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-800 font-medium">
+                            Business news alert
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Business • 1 hour ago
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Link
+                      href="/notifications"
+                      className="block w-full text-center text-orange-600 hover:text-orange-700 font-medium text-sm py-2 border-t border-gray-100 hover:bg-orange-50 transition-colors"
+                    >
+                      See More Notifications
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-            <IconButton href="/google-plus">
-              <FaGooglePlusG />
-            </IconButton>
-            <IconButton href="/twitter">
-              <FaTwitter />
-            </IconButton>
-            <IconButton href="/youtube">
-              <FaYoutube />
-            </IconButton>
+              <IconButton href="/google-plus">
+                <FaGooglePlusG />
+              </IconButton>
+              <IconButton href="/twitter">
+                <FaTwitter />
+              </IconButton>
+              <IconButton href="/youtube">
+                <FaYoutube />
+              </IconButton>
 
-            <span className="mx-2 inline-block h-10 w-px bg-gray-200" />
-            <div className="relative" ref={settingsRef}>
-              <button
-                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-200 bg-white text-gray-600 hover:text-amber-600 transition-colors duration-200 cursor-pointer"
-              >
-                {isLoggedIn ? <FaUser /> : <FaCog />}
-              </button>
+              <span className="mx-2 inline-block h-10 w-px bg-gray-200" />
+              <div className="relative" ref={settingsRef}>
+                <button
+                  onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-200 bg-white text-gray-600 hover:text-amber-600 transition-colors duration-200 cursor-pointer"
+                >
+                  {isLoggedIn ? <FaUser /> : <FaCog />}
+                </button>
 
-              {/* Settings Dropdown */}
-              <div
-                className={`absolute left-0 top-full mt-5 w-44 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
-                  isSettingsOpen
-                    ? "opacity-100 scale-100 translate-y-0"
-                    : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-                }`}
-              >
-                <ul className="py-2">
-                  {isLoggedIn ? (
-                    <>
-                      <li>
-                        <Link
-                          href="/account"
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
-                        >
-                          <FaUser className="text-gray-500" />
-                          <span>Account</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer">
-                          <FaCog className="text-gray-500" />
-                          <span>Settings</span>
-                        </button>
-                      </li>
-                      <li className="border-t border-gray-100">
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 cursor-pointer"
-                        >
-                          <FaSignOutAlt className="text-red-500" />
-                          <span>Logout</span>
-                        </button>
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      <li>
-                        <Link
-                          onClick={handleOnClose}
-                          href="/login"
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
-                        >
-                          <FaSignInAlt className="text-gray-500" />
-                          <span>Login</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          onClick={handleOnClose}
-                          href="/signup"
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
-                        >
-                          <FaUser className="text-gray-500" />
-                          <span>Sign Up</span>
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                </ul>
+                {/* Settings Dropdown */}
+                <div
+                  className={`absolute left-0 top-full mt-5 w-44 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
+                    isSettingsOpen
+                      ? "opacity-100 scale-100 translate-y-0"
+                      : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  <ul className="py-2">
+                    {isLoggedIn ? (
+                      <>
+                        <li>
+                          <Link
+                            href="/account"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
+                          >
+                            <FaUser className="text-gray-500" />
+                            <span>Account</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer">
+                            <FaCog className="text-gray-500" />
+                            <span>Settings</span>
+                          </button>
+                        </li>
+                        <li className="border-t border-gray-100">
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 cursor-pointer"
+                          >
+                            <FaSignOutAlt className="text-red-500" />
+                            <span>Logout</span>
+                          </button>
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li>
+                          <Link
+                            onClick={handleOnClose}
+                            href="/login"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
+                          >
+                            <FaSignInAlt className="text-gray-500" />
+                            <span>Login</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            onClick={handleOnClose}
+                            href="/signup"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200 cursor-pointer"
+                          >
+                            <FaUser className="text-gray-500" />
+                            <span>Sign Up</span>
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </div>
               </div>
+              <IconButton>
+                <FaMoon />
+              </IconButton>
+              <button
+                onClick={handleSearchClick}
+                className="ml-3 hidden items-center gap-2 text-xs text-gray-500 sm:flex hover:text-orange-600 transition-colors duration-200"
+              >
+                <span className="uppercase tracking-wide">Search</span>
+                <FaSearch className="text-orange-600" />
+              </button>
             </div>
-            <IconButton>
-              <FaMoon />
-            </IconButton>
-            <Link
-              href="/search"
-              className="ml-3 hidden items-center gap-2 text-xs text-gray-500 sm:flex"
-            >
-              <span className="uppercase tracking-wide">Search</span>
-              <FaSearch className="text-orange-600" />
-            </Link>
           </div>
         </div>
       </div>
