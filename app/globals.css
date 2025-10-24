@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  padding-top: 20px;
+  width: 100% !important;
+  margin: auto;
+  padding: 15px;
+  min-width: 1140px !important;
+  background-color: rgb(245, 245, 245);
+}
+
+.icon-hover {
+  background-color: orangered;
+  color: white;
+}
+
+.bg-shdw {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.btn-hover:hover {
+  background-color: white;
+  border: 1px solid orangered;
+  color: orangered;
+}
